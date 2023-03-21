@@ -1,0 +1,15 @@
+environments:
+  default:
+    workflows:
+      - name: "workflow-with-mvn-dependencies"
+        tasks:
+          - task_key: "silver-task"
+            <<: *basic-static-cluster
+            spark_python_task:
+                python_file: "silver-notebook.py"
+          
+          - task_key: "gold-task"
+            <<: *basic-static-cluster
+            depends_on: "silver-task"
+            spark_python_task:
+                python_file: "gold-notebook.py"
